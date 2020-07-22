@@ -1,5 +1,5 @@
 
-import { EmailValidator } from './../protocols/email-validator'
+import { EmailValidator } from './../protocols/'
 import { MissingParamError, InvalidParamError, ServerError } from './../errors/'
 import { SignUpController } from './signup'
 
