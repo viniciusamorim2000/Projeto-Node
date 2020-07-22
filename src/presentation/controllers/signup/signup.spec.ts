@@ -17,7 +17,7 @@ const makeAddAccount = (): AddAccount => {
       const fakeAccount = {
         id: 'valid_id',
         name: 'valid_name',
-        email: 'valid_email@mail.com',
+        email: 'valid@email.com',
         passoword: 'valid_passoword'
       }
       return fakeAccount
@@ -128,6 +128,26 @@ describe('Signup Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
+  })
+
+  test('Should return 200 if valid data is provided', () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'valid_name',
+        email: 'valid@email.com',
+        passoword: 'valid_passoword',
+        passowordConfirmation: 'valid_passoword'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toEqual({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid@email.com',
+      passoword: 'valid_passoword'
+    })
   })
 
   test('Should call EmailValidator with correct email', () => {
