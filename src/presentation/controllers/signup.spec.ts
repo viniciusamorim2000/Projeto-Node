@@ -4,7 +4,6 @@ describe('Signup Controller', () => {
     const sut = new SignUpController()
     const httpRequest = {
       body: {
-        name: 'Vinicius ',
         email: 'amorimhavoc@gmail.com',
         passoword: 'any_passoword',
         passowordConfirmation: 'any_confirmation'
@@ -13,6 +12,18 @@ describe('Signup Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new Error('Missing param: name'))
-    sut.handle(httpRequest)
+  })
+  test('Should return 400 if no email is provided', () => {
+    const sut = new SignUpController()
+    const httpRequest = {
+      body: {
+        name: 'Vinicius ',
+        passoword: 'any_passoword',
+        passowordConfirmation: 'any_confirmation'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new Error('Missing param: email'))
   })
 })
