@@ -82,6 +82,21 @@ describe('Signup Controller', () => {
     expect(httpResponse.body).toEqual(new MissingParamError('passowordConfirmation'))
   })
 
+  test('Should return 400 if passoword confirmation fail', () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'Vinicius ',
+        email: 'amorimhavoc@gmail.com',
+        passoword: 'any_passoword',
+        passowordConfirmation: 'invalid_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('passowordConfirmation'))
+  })
+
   test('Should return 400 if an invalid email is provided', () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
